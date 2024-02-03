@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Buttons = ({id}: Props) => {
-    
+    console.log("Suzanne is a genius!")
     return (
         <>
             <span className="mr-3 inline">
@@ -22,18 +22,19 @@ const Buttons = ({id}: Props) => {
                 <button 
                     className='p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
                     onClick={async()=>{
+                        console.log('clicked')
                         try {
-                            const confirmed = confirm("Are you sure you want to delete this task?")
-                            if(confirmed ){
-      
-                               await fetch(`http://localhost:3000/api/tasks?id=${id}`,{
+                            // const confirmed = confirm("Are you sure you want to delete this task?")
+                            // if(confirmed ){
+                               // http://localhost:3000/api/tasks/1
+                               await fetch(`http://localhost:3000/api/tasks/${id}`,{
                                    method:"DELETE",
                                    headers:{"Content-Type":"application/json"},
                                }).then(()=>{
                                    window.location.reload();
                                })
                                
-                              }
+                              //}
                           } catch (error) {
                               console.log("Error deleting task: ", error);
                           }

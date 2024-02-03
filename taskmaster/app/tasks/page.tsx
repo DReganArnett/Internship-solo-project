@@ -15,7 +15,7 @@ const TasksPage = async () => {
   }
 
   const tasks = data.tasks;
-
+  console.log(tasks[0].id, typeof(tasks[0].id), 'is this working?')
   return (
     <div className="p-4">
       <div className="mb-6">
