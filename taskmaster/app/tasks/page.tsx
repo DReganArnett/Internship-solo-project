@@ -1,21 +1,24 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heading } from '@radix-ui/themes';
 import Link from 'next/link';
 import { getAllTasks } from '../api/apiCalls';
 import TaskCard from '../components/TaskCard';
 
 
+
 const TasksPage = async () => {
   const data = await getAllTasks();
-
+  
   if (!data?.tasks) {
     return <p>No tasks yet.</p>
   }
 
   const tasks = data.tasks;
+
   console.log(tasks[0].id, typeof(tasks[0].id), 'is this working?')
+  
   return (
     <div className="p-4">
       <div className="mb-6">

@@ -8,7 +8,21 @@ interface Props {
 }
 
 const Buttons = ({id}: Props) => {
-    console.log("Suzanne is a genius!")
+    
+    const deleteTask = async (id: number) => {
+        console.log("clicked!")
+        try {
+            await fetch(`http://localhost:3000/api/tasks/${id}`,{
+                   method:"DELETE",
+                   headers:{"Content-Type":"application/json"},
+            }).then(()=>{
+                window.location.reload();
+            })
+        } catch (error) {
+            throw new Error('Unable to delete task.');
+        }
+    }
+
     return (
         <>
             <span className="mr-3 inline">
@@ -21,39 +35,11 @@ const Buttons = ({id}: Props) => {
             <span className="mt-3 inline">
                 <button 
                     className='p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
-                    onClick={async()=>{
-                        console.log('clicked')
-                        try {
-                            // const confirmed = confirm("Are you sure you want to delete this task?")
-                            // if(confirmed ){
-                               // http://localhost:3000/api/tasks/1
-                               await fetch(`http://localhost:3000/api/tasks/${id}`,{
-                                   method:"DELETE",
-                                   headers:{"Content-Type":"application/json"},
-                               }).then(()=>{
-                                   window.location.reload();
-                               })
-                               
-                              //}
-                          } catch (error) {
-                              console.log("Error deleting task: ", error);
-                          }
-                      }}
-                    // onSubmit={handleSubmit(async (id) => {
-                    //     try {
-                    //         const response = await fetch(`http://localhost:3000/api/tasks/id`, {
-                    //         method: "DELETE",
-                    //             body: JSON.stringify(id)  
-                    //         });
-                    //             return response.json();
-                    //     } catch (error) {
-                    //         throw new Error('Unable to delete task.');
-                    //     }
-                    // })}
-                   >  
-                        <FaRegTrashCan 
-                            className='fill-current text-white'>
-                        </FaRegTrashCan>
+                    onClick={deleteTask}
+                >  
+                    <FaRegTrashCan 
+                        className='fill-current text-white'>
+                    </FaRegTrashCan>
                 </button>
             </span>   
         </>
@@ -61,3 +47,15 @@ const Buttons = ({id}: Props) => {
 }
 
 export default Buttons
+
+ // const confirmed = confirm("Are you sure you want to delete this task?")
+                            // // if(confirmed ){
+                            //    // http://localhost:3000/api/tasks/1
+                            //    await fetch(`http://localhost:3000/api/tasks/${id}`,{
+                            //        method:"DELETE",
+                            //        headers:{"Content-Type":"application/json"},
+                            //    }).then(()=>{
+                            //        window.location.reload();
+                            //    })
+                               
+                            //   //}
