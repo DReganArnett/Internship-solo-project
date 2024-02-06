@@ -1,29 +1,54 @@
-'use client';
-
-import React, { useState } from 'react'
-import { TextField, Button, Text, Flex, Box, Checkbox, Callout, IconButton } from '@radix-ui/themes';
-import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react'
+import { NextResponse } from 'next/server';
+import { Callout } from '@radix-ui/themes';
 import { taskSchema } from '@/app/validationSchemas';
 import  { z } from 'zod';
-import { HiMiniMagnifyingGlass } from "react-icons/hi2";
-import { BsThreeDots } from "react-icons/bs";
+import { getTaskById, updateTask } from '@/app/api/apiCalls';
+import UpdateTaskForm from '@/app/components/UpdateTaskForm';
+import { useRouter } from 'next/navigation';
 
-type TaskForm = z.infer<typeof taskSchema>;
 
+type updateTaskForm = z.infer<typeof taskSchema>;
 
-const UpdateTaskPage = () => {
-    const router = useRouter();
-    const {register, control, handleSubmit, formState: {errors}} =  useForm<TaskForm>({
-        defaultValues: {
-            completed: false
-        },
-        resolver: zodResolver(taskSchema)
-    });
-    const [error, setError] = useState('');
+interface Props {
+    id: number
+    taskName: string
+    dueOn: string
+    completed: boolean
+}
 
+const UpdateTaskPage = async ({id, taskName, dueOn, completed}: Props) => {
+
+    let error;
+
+    const task  = await getTaskById(id);
+    
+    const submitUpdates = async (params:{id: number, dueOn: string, completed: boolean}) => {
+        const router = useRouter();
+      
+        //Fetch from DB
+        const task = await fetch(`http://localhost:3000/api/${params.id}`, {
+          cache: "no-store",
+        }); 
+         //If not found return 404, else return actual data
+        if (!task){
+            return NextResponse.json({error: 'Task not found'},{status: 404})
+        }
+
+        try {
+          const { taskName, dueOn, completed } = await task.json();
+          const updatedTask = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+            method: "PUT", 
+            body: JSON.stringify({dueOn, completed}),
+            headers: {"Content-Type": "application/json"},
+          });  
+          router.push('/tasks');
+          return NextResponse.json(updatedTask, { status: 200 })
+        } catch (error) {
+          return NextResponse.json({message: 'Unable to update task.', error}, { status: 500 })
+        }
+    }
+   
   return (
 
     <div>  
@@ -31,39 +56,11 @@ const UpdateTaskPage = () => {
             <Callout.Root color="red" className="mb-5">
                 <Callout.Text>{error}</Callout.Text>
             </Callout.Root>}
-            
-        <form 
-            className='space-y-3' 
-            onSubmit={handleSubmit(async (data) => {
-                try {
-                    await axios.put('/api/tasks', data);
-                    router.push('/tasks')   
-                } catch (error) {
-                    setError('An unexpected error occured.');
-                }
-            })}>        
-            <input type='text' placeholder="Task Name: " className='w-96 p-1 border-solid border-gray-300 border-2 text-black max-w-lg rounded-lg placeholder:text-gray-500'   {...register('taskName')} />
-            <br />
-            <input type='text' placeholder="Due On: " className="w-96 p-1 border-2 border-gray-300 max-w-lg rounded-lg text-gray-500 placeholder:text-gray-500" {...register('dueOn')} />
-            <Controller
-                name="completed"
-                control={control}
-                rules={{required: false}}
-                render={({field}) => {
-                    return  (
-                        <Text size="3">
-                            <Flex gap="2" className='mt-2 text-gray-500'>
-                                Completed <Checkbox /> 
-                            </Flex>
-                        </Text>
-                    
-                    )}
-                }
-            />  
-            <button className="p-2 bg-gray-500 hover:bg-gray-700 rounded text-white">Update Task</button>
-        </form>
+        <UpdateTaskForm task={task} submitUpdates={function (): void {}}  />  
+       
     </div>
   )
 }
 
-export default UpdateTaskPage
+export default UpdateTaskPage;
+

@@ -4,27 +4,29 @@ import { useRouter } from "next/navigation";
 const BASE_URL="http://localhost:3000/api/tasks"
 
 export async function createTask (url: string="/tasks", data: object={}) {
-    const router = useRouter()
+  const router = useRouter()
  
-    try {
-            const response = await fetch(`${BASE_URL}`, {
-                method: "POST",
-                cache: "no-cache",
-                body: JSON.stringify(data),
-            });
-            const tasks = response.json();
-            router.push('/tasks')
-            return tasks;    
-    } catch (error) {
-            throw new Error('Unable to post new task.');
-    }
+  try {
+    const response = await fetch(`${BASE_URL}`, {
+      method: "POST",
+        cache: "no-cache",
+        body: JSON.stringify(data),
+    });
+    const tasks = response.json();
+    router.push('/tasks')
+    return tasks;    
+  } catch (error) {
+    return NextResponse.json({ message: "Unable to add task:", error }, { status: 500 });
+  }
 }
 
 export async function getAllTasks () {
-    const router = useRouter()
-
     try {
-      const res = await fetch(`${BASE_URL}`);
+      const router = useRouter()
+      const res = await fetch(`${BASE_URL}`,{
+        cache: 'no-store',
+      });
+
       const tasks= res.json()
   
       if (!res.ok) {
@@ -32,7 +34,7 @@ export async function getAllTasks () {
       }
       return tasks;
     } catch (error) {
-      return NextResponse.json({ message: "Error", error }, { status: 500 });
+      return NextResponse.json({ message: "Error loading tasks:", error }, { status: 500 });
     }
 }
 
@@ -52,34 +54,42 @@ export async function getTaskById(id: number) {
     }
 };
 
+export async function updateTask (params:{id: number, taskName: string, dueOn: string, completed: boolean}) {
+  const router = useRouter();
 
-export async function updateTask (url: string="/tasks", data: object={}) {
-    const router = useRouter()
- 
-    try {
-        const response = await fetch(`${BASE_URL}`, {
-            method: "PUT",
-            cache: "no-cache",
-            body: JSON.stringify(data),
-        });
-        const tasks = response.json();
-        router.push('/tasks')
-        return tasks;    
-    } catch (error) {
-            throw new Error('Unable to post new task.');
-    }
+  //Fetch from DB
+  const task = await fetch(`${BASE_URL}/${params.id}`, {
+    cache: "no-store",
+  }); 
+   //If not found return 404, else return actual data
+    if (!task)
+        return NextResponse.json({error: 'Task not found'},{status: 404})
+  
+  try {
+    const { dueOn, completed } = await task.json();
+    const updatedTask = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+      method: "PUT", 
+      body: JSON.stringify({dueOn, completed}),
+      headers: {"Content-Type": "application/json"},
+    });  
+    router.push('/tasks');
+    return NextResponse.json(updatedTask, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({message: 'Unable to update task.', error}, { status: 500 })
+  }
 }
 
-export async function deleteTask (id: number) {
-    const router = useRouter()
+export async function deleteTask (id: number) { 
     try {
+        const router = useRouter()
         const res = await fetch(`${BASE_URL}/${id}`, {
         method: "DELETE",
+        headers: {'Content-Type': 'application/json'},
         });
         if (res.ok) {
-            router.refresh();
+            router.push('/tasks');
         }
     } catch (error) {
-        return NextResponse.json({ message: "Error", error }, { status: 500 });
+      return NextResponse.json({ message: "Error deleting task:", error }, { status: 500 });
     }  
 };

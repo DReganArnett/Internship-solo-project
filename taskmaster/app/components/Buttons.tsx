@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';import { useForm } from 'react-hook-form';
 import { TfiPencil } from 'react-icons/tfi'
 import { FaRegTrashCan } from 'react-icons/fa6';
+import { FaCheck } from "react-icons/fa6";
 
 interface Props {
     id: Number
@@ -25,6 +26,15 @@ const Buttons = ({id}: Props) => {
 
     return (
         <>
+            <span className="mr-3 mt-3 inline">
+                <button 
+                    className='p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
+                >  
+                    <FaCheck 
+                        className='fill-current text-white'>
+                    </FaCheck>
+                </button>
+            </span>
             <span className="mr-3 inline">
                 <button className="p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg">
                     <Link href='/tasks/update'>
@@ -35,7 +45,7 @@ const Buttons = ({id}: Props) => {
             <span className="mt-3 inline">
                 <button 
                     className='p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
-                    onClick={deleteTask}
+                    //onClick={deleteTask}
                 >  
                     <FaRegTrashCan 
                         className='fill-current text-white'>
