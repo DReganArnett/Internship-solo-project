@@ -2,26 +2,45 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
+import { NextResponse } from 'next/server';
 import { Card, Flex, Box, Text} from '@radix-ui/themes';
 import { FaCheck, FaPencil, FaRegTrashCan } from 'react-icons/fa6';
-import { deleteTask } from '../api/apiCalls';
 import DeleteIcon from './DeleteIcon';
 import CheckIcon from './CheckIcon';
 import EditIcon from './EditIcon';
+import { redirect } from 'next/navigation';
 
 interface Props {
-    id: number
+    id: string
     taskName: string
     dueOn: string
     completed: boolean
-   
+    toggleTask: (id:string, complete: boolean) => void
+    deleteSingleTask: (id:string) => void
+
 }
 
 
-const TaskCard = async ({id, taskName, dueOn, completed}: Props) => {
+
+const TaskCard = ({id, taskName, dueOn, completed, toggleTask, deleteSingleTask}: Props) => {
+    // const [deleted, setDeleted] = useState(false);
     console.log('id: ', id, 'taskName: ', taskName, 'dueOn: ', dueOn, 'completed: ', completed);
 
-    
+    // const handleDelete = ({id}: Props) => {
+    //     try {
+    //         const res = fetch(`http://localhost:3000/tasks/api/${id}`, {
+    //             method: "DELETE",
+    //             headers: {'Content-Type': 'application/json'},
+    //       });
+    //       console.log("DELETED")
+    //       redirect('/')
+          
+    //     } catch (error) {
+    //       return NextResponse.json({ message: "Error deleting task:", error }, { status: 500 });
+    //     }  
+    //   }
+
+
     return (
         <>
             <div className="mt-5 mb-7 text-yellow-900 border-yellow-900">
@@ -43,18 +62,27 @@ const TaskCard = async ({id, taskName, dueOn, completed}: Props) => {
                             {completed===true ? (
                                 null
                             ) : (
-                                <button className='mr-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'>
-                                    <FaCheck className='fill-current text-white'/>
-                                </button>
-                            )} 
+                                <div>
+                                    <label htmlFor="checkBox">Completed: </label>
+                                    <input 
+                                        type="checkbox"
+                                        name="checkBox"
+                                        id={id}
+                                        className='mr-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
+                                        onChange={e => toggleTask(id, e.target.checked)}
+                                    />
+                                </div>
+                            )}
+                            
                              <button className="p-3 mr-3 bg-yellow-900 hover:bg-amber-700 hover:cursor-pointer rounded-lg">
                                 <Link href='/tasks/update'>
                                      <FaPencil className="fill-current text-white"/>
                                 </Link>
                             </button>
+        
                             <button 
                                 className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
-                                onClick={(_id) => fetch(`http://localhost:3000/api/tasks/${id}`, {method: "DELETE",})}
+                                onClick={(id) => {deleteSingleTask}}
                             >
                                 <FaRegTrashCan className='fill-current text-white'/>
                             </button>

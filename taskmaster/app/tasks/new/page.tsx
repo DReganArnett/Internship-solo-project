@@ -50,7 +50,7 @@ const NewTaskPage = () => {
                         type='text' 
                         required 
                         placeholder="Task Name: " 
-                        className='w-96 p-1 border-solid opacity-75 border-yellow-800 border-2  text-yellow-900 max-w-lg rounded-lg placeholder:text-yellow-950'
+                        className='w-96 p-1 border-solid opacity-75 border-yellow-800 border-2  text-yellow-950 max-w-lg rounded-lg placeholder:text-yellow-950'
                         onChange={(e) => setTaskName(e.target.value)}
                     />
                     <br />
