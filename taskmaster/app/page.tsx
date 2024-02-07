@@ -1,5 +1,5 @@
 
-import { Heading, AlertDialogRoot, AlertDialogContent, AlertDialogTitle } from '@radix-ui/themes'
+import { Heading } from '@radix-ui/themes'
 import { NextResponse } from 'next/server';
 import './globals.css';
 import { redirect } from 'next/navigation';
@@ -29,11 +29,11 @@ async function toggleTask(id: string, completed: boolean) {
   redirect('/');
 }
 
-async function deleteSingleTask(id: string, completed: boolean) {
-  "use server"
-  await prisma.task.delete({where: { id } });
-  redirect('/');
-}
+// async function deleteSingleTask(id: string) {
+//   "use server"
+//   await prisma.task.delete({where: { id } });
+//   redirect('/');
+// }
 
 const Home = async () => {
 
@@ -58,7 +58,7 @@ const Home = async () => {
       <div className="pl-4 ml-12 flex">
         <ul>
           {tasks.map(task => (
-            <TaskCard key={task.id} {...task} toggleTask={toggleTask} deleteSingleTask={deleteSingleTask} />
+            <TaskCard key={task.id} {...task} toggleTask={toggleTask}  />
           ))}
         </ul>
       </div>

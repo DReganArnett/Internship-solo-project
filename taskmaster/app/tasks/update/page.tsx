@@ -58,10 +58,6 @@ const UpdateTaskPage = async () => {
 
   return (
     <div>  
-      {/* {error && 
-        <Callout.Root color="red" className="mb-5">
-          <Callout.Text>{error}</Callout.Text>
-        </Callout.Root>} */}
       <UpdateTaskForm  />
     </div>
   )

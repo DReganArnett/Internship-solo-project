@@ -2,13 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
-import { NextResponse } from 'next/server';
 import { Card, Flex, Box, Text} from '@radix-ui/themes';
-import { FaCheck, FaPencil, FaRegTrashCan } from 'react-icons/fa6';
-import DeleteIcon from './DeleteIcon';
-import CheckIcon from './CheckIcon';
-import EditIcon from './EditIcon';
-import { redirect } from 'next/navigation';
+import { FaPencil, FaRegTrashCan } from 'react-icons/fa6';
+
 
 interface Props {
     id: string
@@ -17,29 +13,13 @@ interface Props {
     completed: boolean
     toggleTask: (id:string, complete: boolean) => void
     deleteSingleTask: (id:string) => void
-
 }
 
 
 
 const TaskCard = ({id, taskName, dueOn, completed, toggleTask, deleteSingleTask}: Props) => {
-    // const [deleted, setDeleted] = useState(false);
+
     console.log('id: ', id, 'taskName: ', taskName, 'dueOn: ', dueOn, 'completed: ', completed);
-
-    // const handleDelete = ({id}: Props) => {
-    //     try {
-    //         const res = fetch(`http://localhost:3000/tasks/api/${id}`, {
-    //             method: "DELETE",
-    //             headers: {'Content-Type': 'application/json'},
-    //       });
-    //       console.log("DELETED")
-    //       redirect('/')
-          
-    //     } catch (error) {
-    //       return NextResponse.json({ message: "Error deleting task:", error }, { status: 500 });
-    //     }  
-    //   }
-
 
     return (
         <>
@@ -81,8 +61,10 @@ const TaskCard = ({id, taskName, dueOn, completed, toggleTask, deleteSingleTask}
                             </button>
         
                             <button 
+                                type="submit"
+                                id={id}
                                 className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
-                                onClick={(id) => {deleteSingleTask}}
+                                onSubmit={() => {deleteSingleTask}}
                             >
                                 <FaRegTrashCan className='fill-current text-white'/>
                             </button>

@@ -12,6 +12,7 @@ const NavBar = () => {
     const links = [
         {label: 'Home', href: '/'},
         {label: 'Add Tasks', href: '/tasks/new'},
+        {label: 'To-Do', href: '/tasks/to-do'},
     ]
   return (
     <nav className="mr-6 ml-6 flex space-x-6  border-b-2  border-yellow-800 mb-0 px-5 h-14 items-center text-yellow-900">
