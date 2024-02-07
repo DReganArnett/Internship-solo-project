@@ -7,7 +7,7 @@ const DeleteIcon = (id:number) => {
             <span className="mt-3 inline">
                 <button 
                     type='submit'
-                    className='p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
+                    className='p-3 bg-amber-500 hover:bg-amber-700 hover:cursor-pointer rounded-lg'
                     onSubmit={ async (id) => {
                         try {
                             await fetch(`http://localhost:3000/api/tasks/${id}`,{

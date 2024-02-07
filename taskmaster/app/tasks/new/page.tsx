@@ -25,7 +25,7 @@ const NewTaskPage = () => {
                 body: JSON.stringify({taskName, dueOn, completed}),
                 headers: {"Content-Type": "application/json"},
             });
-            router.push("/tasks");
+            router.push("/");
         } catch (error) {
             throw new Error('Unable to post task.');
         }
@@ -34,39 +34,43 @@ const NewTaskPage = () => {
   return (
 
     <div>
-        <h1 className='mb-2 text-2xl text-black'>Create a Task: </h1>
-        {error && 
-            <Callout.Root color="red" className="mb-5">
-                <Callout.Text>{error}</Callout.Text>
-            </Callout.Root>}
-        
-        <form 
-            action = ''
-            name="TaskForm"
-            className='space-y-3'>
-            <input 
-                type='text' 
-                required 
-                placeholder="Task Name: " 
-                className='w-96 p-1 border-solid border-gray-300 border-2 text-black max-w-lg rounded-lg placeholder:text-gray-500'
-                onChange={(e) => setTaskName(e.target.value)}
-            />
-            <br />
-            <input 
-                type="text" 
-                required 
-                placeholder="Due On: "
-                className='w-96 p-1 border-solid border-gray-300 border-2 text-black max-w-lg rounded-lg placeholder:text-gray-500' 
-                onChange={(e) => setDueOn(e.target.value)}
-            />
-            <br />
-            <button 
-                className="p-2 bg-gray-500 hover:bg-gray-700 rounded text-white"
-                onClick={submitTask}
-            >
-                Submit New Task
-            </button>
-        </form>
+        <div className='image-container'>
+            <div className='p-4 ml-8'>
+                <h1 className='mb-2 text-2xl text-white'>Create a Task: </h1>
+                {error && 
+                    <Callout.Root color="red" className="mb-5">
+                        <Callout.Text>{error}</Callout.Text>
+                    </Callout.Root>}
+                
+                <form 
+                    action = ''
+                    name="TaskForm"
+                    className='space-y-3'>
+                    <input 
+                        type='text' 
+                        required 
+                        placeholder="Task Name: " 
+                        className='w-96 p-1 border-solid opacity-75 border-yellow-800 border-2  text-yellow-900 max-w-lg rounded-lg placeholder:text-yellow-950'
+                        onChange={(e) => setTaskName(e.target.value)}
+                    />
+                    <br />
+                    <input 
+                        type="text" 
+                        required 
+                        placeholder="Due On: "
+                        className='w-96 p-1 border-solid opacity-75 border-yellow-800 border-2 text-yellow-950 k max-w-lg rounded-lg placeholder:text-yellow-950' 
+                        onChange={(e) => setDueOn(e.target.value)}
+                    />
+                    <br />
+                    <button 
+                        className="p-1 border-2 border-yellow-900 bg-white opacity-75  hover:bg-yellow-700 rounded-xl text-yellow-950"
+                        onClick={submitTask}
+                    >
+                        Submit New Task
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
   )
 }

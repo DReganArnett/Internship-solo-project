@@ -1,30 +1,28 @@
+
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Heading } from '@radix-ui/themes';
 import Link from 'next/link';
 import { getAllTasks } from '../api/apiCalls';
 import TaskCard from '../components/TaskCard';
 
 
-
 const TasksPage = async () => {
   const data = await getAllTasks();
-  
+
   if (!data?.tasks) {
     return <p>No tasks yet.</p>
   }
 
   const tasks = data.tasks;
 
-  // console.log(tasks[0].id, typeof(tasks[0].id), 'is this working?')
-  
   return (
     <div className="p-4">
-      <div className="mb-6">
+      <div className="mb-6 text-yellow-900">
         <Heading size="8" as="h1">My Tasks:</Heading>
       </div>
-      <button className="p-2 bg-white-500 bg-gray-500 hover:bg-gray-700 rounded text-white"><Link href='/tasks/new'>Add a New Task</Link></button>
+      <button className="p-2 bg-white-500 bg-yellow-900 hover:bg-yellow-950 rounded text-white"><Link href='/tasks/new'>Add a New Task</Link></button>
       <br /><br/>
       <div>
         <ul className="pl-4">
@@ -38,7 +36,6 @@ const TasksPage = async () => {
 }
 
 export default TasksPage
-
 
     // <>
     //   {Array.isArray(tasks) && 

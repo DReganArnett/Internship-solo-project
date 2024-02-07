@@ -28,7 +28,7 @@ const Buttons = ({id}: Props) => {
         <>
             <span className="mr-3 mt-3 inline">
                 <button 
-                    className='p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
+                    className='p-3 bg-amber-500 hover:bg-amber-700 hover:cursor-pointer rounded-lg'
                 >  
                     <FaCheck 
                         className='fill-current text-white'>
@@ -36,7 +36,7 @@ const Buttons = ({id}: Props) => {
                 </button>
             </span>
             <span className="mr-3 inline">
-                <button className="p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg">
+                <button className="p-3 bg-amber-500 hover:bg-amber-700 hover:cursor-pointer rounded-lg">
                     <Link href='/tasks/update'>
                         <TfiPencil className="fill-current text-white"/>
                     </Link>
@@ -44,7 +44,7 @@ const Buttons = ({id}: Props) => {
             </span>
             <span className="mt-3 inline">
                 <button 
-                    className='p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
+                    className='p-3 bg-amber-500 hover:bg-amber-700 hover:cursor-pointer rounded-lg'
                     //onClick={deleteTask}
                 >  
                     <FaRegTrashCan 

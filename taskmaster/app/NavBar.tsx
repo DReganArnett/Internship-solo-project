@@ -11,18 +11,18 @@ const NavBar = () => {
 
     const links = [
         {label: 'Home', href: '/'},
-        {label: 'My Tasks', href: '/tasks'},
+        {label: 'Add Tasks', href: '/tasks/new'},
     ]
   return (
-    <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
+    <nav className="flex space-x-6 border-b border-yellow-900 mb-0 px-5 h-14 items-center text-yellow-900">
         <Link href="/"><PiNotepadBold  /></Link>
         <ul className='flex space-x-6'>
             {links.map(link => <Link  
             key={link.href} 
             className={classnames({
-                'text-zinc-900': link.href === currentPath,
-                'text-zinc-500':link.href !== currentPath,
-                'hover:text-zinc-800 transition-colors':true
+                'text-yellow-900': link.href === currentPath,
+                'text-yellow-700':link.href !== currentPath,
+                'hover:text-yellow-800 transition-colors':true
             })} 
             href={link.href}>{link.label}</Link>)}
              

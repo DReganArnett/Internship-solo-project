@@ -1,26 +1,29 @@
-
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Card, Flex, Box, Text} from '@radix-ui/themes';
 import { FaCheck, FaPencil, FaRegTrashCan } from 'react-icons/fa6';
+import { toggleTask, deleteTask } from '../api/apiCalls';
+import prisma from '@/prisma/client';
 
 
 interface Props {
-  id: number
-  taskName: string
-  dueOn: string
-  completed: boolean
+    id: number
+    taskName: string
+    dueOn: string
+    completed: boolean
+    deleteTask?(value:number):void
+    toggleTask?(value:number):void
 }
 
+const TaskCard = async ({id, taskName, dueOn, completed}: Props) => {
+    console.log('id: ', id, 'taskName: ', taskName, 'dueOn: ', dueOn, 'completed: ', completed);
 
-const TaskCard = ({id, taskName, completed, dueOn}: Props) => {
-    const router = useRouter();
-    
+
     return (
         <>
-            <div className="mb-10">
-                <Card style={{ maxWidth: 300 }}>
+            <div className="mt-5 mb-7 text-yellow-900 border-yellow-900">
+                <Card style={{ maxWidth: 300, borderColor:'brown' }}>
                     <Flex gap="3" align="center">
                         <Box>
                             {completed===true ? (
@@ -39,50 +42,20 @@ const TaskCard = ({id, taskName, completed, dueOn}: Props) => {
                                 null
                             ) : (
                                 <button 
-                                    className='mr-3 mt-3 p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
-                                    type="submit"
-                                    onSubmit={(async (id, data = {completed}) => {
-                                        try {
-                                            await fetch(`http://localhost:3000/api/update/${id}`, {
-                                                method: "PUT",
-                                                headers: {"Content-Type": "application/json"},
-                                                body: JSON.stringify(data)
-                                            }).then(response => response.json())
-                                              .then(() => {
-                                                router.push('/tasks')
-                                            })
-                                        } catch (error) {
-                                            throw new Error('Unable to mark task as completed.');
-                                        }
-                                    })}
-                                >  
-                                    <FaCheck 
-                                        className='fill-current text-white'>
-                                    </FaCheck>
+                                    className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'>
+                                    <FaCheck className='fill-current text-white'></FaCheck>
                                 </button>
                             )}
                             <button 
-                                className='mr-3 mt-3 p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'>
-                                    <Link href='/tasks/update'>
-                                        <FaPencil className="fill-current text-white"/>
-                                    </Link>
+                                className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
+                            >
+                                <Link href='/tasks/update'>
+                                    <FaPencil className="fill-current text-white"/>
+                                </Link>
                             </button>
                             <button 
-                                className='mr-3 mt-3 p-3 bg-gray-500 hover:bg-gray-700 hover:cursor-pointer rounded-lg'
-                                type='submit'
-                                onSubmit={async (id) => {
-                                    try {
-                                        await fetch(`http://localhost:3000/api/tasks/${id}`,{
-                                            method:"DELETE",
-                                                headers:{"Content-Type":"application/json"},
-                                            }).then(()=>{
-                                                router.push('/tasks');
-                                            })
-                                        
-                                    } catch (error) {
-                                        throw new Error('Unable to delete task.');
-                                    }
-                                }}>
+                                className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
+                                >
                                     <FaRegTrashCan className="fill-current text-white"/> 
                             </button>
                         </Box>
@@ -94,3 +67,6 @@ const TaskCard = ({id, taskName, completed, dueOn}: Props) => {
 }
 
 export default TaskCard;
+
+// onClick={async () => await prisma.task.update({ where: {id}, data: {completed} })}
+// onClick={async() => await prisma.task.delete({where: {id}})}
