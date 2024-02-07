@@ -10,23 +10,18 @@ function getTasks() {
   return prisma.task.findMany();
 }
 
-// async function CreateTodo(data: FormData) {
-//   "use server"
-//   const title = data.get("title")?.valueOf()
-//   await prisma.task.create({ data: { taskName, dueOn, completed: false } })
-//   redirect('/')
-// }
-// async function DeleteTask(data: FormData) {
-//   "use server"
-//   const taskName = data.get("taskName")?.valueOf()
-//   await prisma.task.deleteMany()
-//   redirect('/')
-// }
+async function DeleteAllTasks(data: FormData) {
+  "use server"
+  const id = data.get("id")?.valueOf()
+  await prisma.task.deleteMany()
+  redirect('/')
+}
 
 const Home = async () => {
+
   const tasks = await getTasks();
+
   return (
-  
     <div className='image-container'>
       <div>
         <div className="pr-6 pt-2 text-right">
@@ -37,7 +32,10 @@ const Home = async () => {
             <Heading size="5" as="h1">Manage your tasks like a boss!</Heading>
           </div>
         </div> 
-        <button className="p-2 ml-24 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded text-yellow-950"><a href='/tasks/new'>Add a New Task</a></button>
+        <form action={DeleteAllTasks}>
+          <button className="p-1 ml-16 mr-5 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/new'>Add a Task</a></button>
+          <button className="p-1 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline">Reset Tasks</button>
+        </form>
       </div>
       <div className="pl-4 ml-12 flex">
         <ul>

@@ -14,7 +14,7 @@ const NavBar = () => {
         {label: 'Add Tasks', href: '/tasks/new'},
     ]
   return (
-    <nav className="flex space-x-6 border-b border-yellow-900 mb-0 px-5 h-14 items-center text-yellow-900">
+    <nav className="mr-6 ml-6 flex space-x-6  border-b-2  border-yellow-800 mb-0 px-5 h-14 items-center text-yellow-900">
         <Link href="/"><PiNotepadBold  /></Link>
         <ul className='flex space-x-6'>
             {links.map(link => <Link  
@@ -25,7 +25,6 @@ const NavBar = () => {
                 'hover:text-yellow-800 transition-colors':true
             })} 
             href={link.href}>{link.label}</Link>)}
-             
         </ul>
     </nav>
   )
