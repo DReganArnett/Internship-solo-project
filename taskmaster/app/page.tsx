@@ -1,7 +1,7 @@
 
-import { Heading } from '@radix-ui/themes'
+import { Heading, AlertDialogRoot, AlertDialogContent, AlertDialogTitle } from '@radix-ui/themes'
 import './globals.css';
-import Link, { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import NavBar from './NavBar';
 import TaskCard from './components/TaskCard';
 import prisma from '@/prisma/client';

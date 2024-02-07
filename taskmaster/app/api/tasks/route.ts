@@ -28,35 +28,4 @@ export async function POST (request: NextRequest) {
 }
 
 
-export async function PUT (request: NextRequest, id:number) {
-    try {
-        const body = await request.json();
-        const validation = taskSchema.safeParse(body);
-        if (!validation.success) 
-            return NextResponse.json(validation.error.format(), { status: 400 });
-        
-        const data = body.formData;
-        const updatedTask = await prisma.task.update({ 
-            where: {id: body.id}, 
-            data: { taskName: body.taskName, dueOn: body.dueOn} 
-            });
-        return NextResponse.json({ message: "Task updated" }, { status: 200 });
-    } catch (error) {
-      console.log(error);
-      return NextResponse.json({ message: "Error", error }, { status: 500 });
-    }
-}
-  
-export async function DELETE (request: NextRequest) {
-    try {
-        const body = await request.json();
-        const deletedTask = await prisma.task.delete({ 
-            where: {id: body.id}, 
-        });
-        return NextResponse.json({ message: "Task deleted" }, { status: 200 });
-    } catch (error) {
-      console.log(error);
-      return NextResponse.json({ message: "Error", error }, { status: 500 });
-    }
-}
 

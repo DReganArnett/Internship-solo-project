@@ -1,25 +1,27 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Card, Flex, Box, Text} from '@radix-ui/themes';
 import { FaCheck, FaPencil, FaRegTrashCan } from 'react-icons/fa6';
-import { toggleTask, deleteTask } from '../api/apiCalls';
-import prisma from '@/prisma/client';
-
+import { deleteTask } from '../api/apiCalls';
+import DeleteIcon from './DeleteIcon';
+import CheckIcon from './CheckIcon';
+import EditIcon from './EditIcon';
 
 interface Props {
     id: number
     taskName: string
     dueOn: string
     completed: boolean
-    deleteTask?(value:number):void
-    toggleTask?(value:number):void
+   
 }
+
 
 const TaskCard = async ({id, taskName, dueOn, completed}: Props) => {
     console.log('id: ', id, 'taskName: ', taskName, 'dueOn: ', dueOn, 'completed: ', completed);
 
-
+    
     return (
         <>
             <div className="mt-5 mb-7 text-yellow-900 border-yellow-900">
@@ -41,23 +43,22 @@ const TaskCard = async ({id, taskName, dueOn, completed}: Props) => {
                             {completed===true ? (
                                 null
                             ) : (
-                                <button 
-                                    className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'>
-                                    <FaCheck className='fill-current text-white'></FaCheck>
+                                <button className='mr-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'>
+                                    <FaCheck className='fill-current text-white'/>
                                 </button>
-                            )}
-                            <button 
-                                className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
-                            >
+                            )} 
+                             <button className="p-3 mr-3 bg-yellow-900 hover:bg-amber-700 hover:cursor-pointer rounded-lg">
                                 <Link href='/tasks/update'>
-                                    <FaPencil className="fill-current text-white"/>
+                                     <FaPencil className="fill-current text-white"/>
                                 </Link>
                             </button>
                             <button 
                                 className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
-                                >
-                                    <FaRegTrashCan className="fill-current text-white"/> 
+                                onClick={(_id) => fetch(`http://localhost:3000/api/tasks/${id}`, {method: "DELETE",})}
+                            >
+                                <FaRegTrashCan className='fill-current text-white'/>
                             </button>
+                          
                         </Box>
                     </Flex>
                 </Card>
@@ -70,3 +71,11 @@ export default TaskCard;
 
 // onClick={async () => await prisma.task.update({ where: {id}, data: {completed} })}
 // onClick={async() => await prisma.task.delete({where: {id}})}
+
+  {/* <button 
+                                className='mr-3 mt-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
+                            >
+                                <a href='/tasks/update'>
+                                    <FaPencil className="fill-current text-white" id={id} />
+                                </a>
+                            </button> */}
