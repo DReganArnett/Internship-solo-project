@@ -39,21 +39,18 @@ const TaskCard = ({id, taskName, dueOn, completed, toggleTask, deleteSingleTask}
                             <Text as="div" size="2">
                                 Due on: {dueOn}
                             </Text>
-                            {completed===true ? (
-                                null
-                            ) : (
-                                <div>
-                                    <label htmlFor="checkBox">Completed: </label>
-                                    <input 
-                                        type="checkbox"
-                                        name="checkBox"
-                                        id={id}
-                                        className='mr-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
-                                        onChange={e => toggleTask(id, e.target.checked)}
-                                    />
-                                </div>
-                            )}
                             
+                            <div>
+                                <label htmlFor="checkBox">Completed: </label>
+                                <input 
+                                    type="checkbox"
+                                    name="checkBox"
+                                    id={id}
+                                    className='mr-3 p-3 bg-yellow-900 hover:bg-yellow-950 hover:cursor-pointer rounded-lg text-white'
+                                    onChange={e => toggleTask(id, e.target.checked)}
+                                />
+                            </div>
+                           
                              <button className="p-3 mr-3 bg-yellow-900 hover:bg-amber-700 hover:cursor-pointer rounded-lg">
                                 <Link href='/tasks/update'>
                                      <FaPencil className="fill-current text-white"/>

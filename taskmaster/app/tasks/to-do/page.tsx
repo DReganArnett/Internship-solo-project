@@ -32,9 +32,9 @@ const ToDoPage = async ({completed}: Props) => {
 
   return (
     <div className='image-container'>
-        <div className="pl-12 pt-2 mb-5">
-            <div className=' text-white mt-5 ml-16'>
-                <Heading size="9" as="h1">To-do:</Heading>
+        <div className="ml-16 pt-12">
+            <div className='ml-16 text-white'>
+                <Heading size="8" as="h1">To-do List:</Heading>
             </div>
             <div className="mt-5 -ml-5">
                 <form action={deleteAllTasks}>
@@ -54,4 +54,4 @@ const ToDoPage = async ({completed}: Props) => {
   )
 }
 
-export default ToDoPage
+export default ToDoPage;

@@ -1,68 +1,77 @@
 
-'use client'
 
 import React from 'react';
+import '../globals.css';
 import { Heading } from '@radix-ui/themes';
-import Link from 'next/link';
-import { getAllTasks } from '../api/apiCalls';
+import { redirect } from 'next/navigation';
 import TaskCard from '../components/TaskCard';
+import prisma from '@/prisma/client';
 
+type Props = {
+  id: string
+  taskName: string
+  dueOn: string
+  completed: boolean
+}
 
-const TasksPage = async () => {
-  const data = await getAllTasks();
+function getTasks() {
+  return prisma.task.findMany();
+}
 
-  if (!data?.tasks) {
+async function deleteAllTasks(data: FormData) {
+  "use server"
+  const id = data.get("id")?.valueOf();
+  await prisma.task.deleteMany()
+  redirect('/tasks');
+}
+
+async function toggleTask(id: string, completed: boolean) {
+  "use server"
+  await prisma.task.update({ where: { id }, data: { completed }});
+  redirect('/tasks');
+}
+
+// async function deleteSingleTask(id: string) {
+//   "use server"
+//   await prisma.task.delete({where: { id } });
+//   redirect('/');
+// }
+
+const AllTasksPage = async ({id, taskName, dueOn, completed}: Props) => {
+  const tasks = await getTasks();
+
+  if (!tasks) {
     return <p>No tasks yet.</p>
   }
 
-  const tasks = data.tasks;
+  console.log('id: ', id, 'taskName: ', taskName, 'completed: ', completed)
+
 
   return (
-    <div className="p-4">
-      <div className="mb-6 text-yellow-900">
-        <Heading size="8" as="h1">My Tasks:</Heading>
-      </div>
-      <button className="p-2 bg-white-500 bg-yellow-900 hover:bg-yellow-950 rounded text-white"><Link href='/tasks/new'>Add a New Task</Link></button>
-      <br /><br/>
-      <div>
-        <ul className="pl-4">
-          {tasks.map((task: { id: number, taskName: string, dueOn: string, completed: boolean}) => (
-            <TaskCard  key={task.id} id={task.id} taskName={task.taskName} dueOn={task.dueOn} completed={task.completed} />
-          ))}
-        </ul>
+    <div className='image-container'>
+    <div>
+      <div className="ml-16 pt-12">
+        <div className='ml-8 text-white' >
+          <Heading size="8" as="h1">All Tasks:</Heading>
+        </div>
+      </div> 
+      <div className="mt-5 ml-16">
+        <form action={deleteAllTasks}>
+          <button className="p-1 mr-5 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/new'>Add a Task</a></button>
+          <button className="p-1 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline">Reset Tasks</button>
+        </form>
       </div>
     </div>
+    <div className="pl-4 ml-12 flex">
+      <ul>
+        {tasks.map(task => (
+          <TaskCard key={task.id} {...task} toggleTask={toggleTask}  />
+        ))}
+      </ul>
+    </div>
+  </div>
+
   )
 }
 
-export default TasksPage
-
-    // <>
-    //   {Array.isArray(tasks) && 
-    //     tasks.map((task) => (
-    //       <div
-    //         key={task._id}
-    //         className="p-4 border border-slate-300 my-3 flex justify-between gap-5 items-start"
-    //       >
-    //         <div>
-    //           <h1 className="font-bold text-2xl">{task.taskName}</h1>
-    //         </div>
-    //         <div className="flex gam-2">
-    //           <span onClick={async() => {
-    //             try {
-    //               await fetch(`https://localhost:3000/api/tasks?id=${task._id}`, {
-    //                 method: 'DELETE', 
-    //                 headers: {'Content-Type': 'application/json'},
-    //               }).then(() => {
-    //                 window.location.reload();
-    //               })
-    //             } catch (error) {
-    //               throw new Error('Unable to delete task.');
-    //             }              
-    //           }}>
-    //             <FaRegTrashCan />
-    //           </span>
-    //         </div>
-    //       </div>
-    //     ))}
-    // </>
+export default AllTasksPage
