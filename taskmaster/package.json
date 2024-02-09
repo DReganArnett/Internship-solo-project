@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.6",
     "@hookform/resolvers": "^3.3.1",
     "@prisma/client": "^5.3.1",
     "@radix-ui/themes": "^2.0.3",
     "axios": "^1.6.7",
+    "clerk": "^0.6.1",
     "next": "14.1.0",
     "prisma": "^5.3.1",
     "react": "^18",

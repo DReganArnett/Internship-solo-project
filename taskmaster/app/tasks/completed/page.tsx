@@ -2,7 +2,7 @@ import React from 'react';
 import { Heading } from '@radix-ui/themes'
 import { redirect } from 'next/navigation';
 import prisma from '@/prisma/client';
-import TaskCard from '@/app/components/TaskCard';
+import TaskCard from '../[id]/page';
 
 async function getTasks (completed: boolean){
     "use server"
@@ -43,7 +43,7 @@ const CompletedPage = async ({completed}: Props) => {
                   <button className="p-1 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline">Reset Tasks</button>
                 </form>
             </div> 
-            <div>   
+            <div className="ml-16 flex">   
                 <ul>
                     {todos.map(todo => (
                         <TaskCard key={todo.id} {...todo} toggleTask={toggleTask} />

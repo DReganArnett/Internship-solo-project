@@ -11,9 +11,9 @@ const NavBar = () => {
 
     const links = [
         {label: 'Home', href: '/'},
-        {label: 'All Tasks', href: '/tasks'},
         {label: 'Add Tasks', href: '/tasks/new'},
-        {label: 'To-Do List', href: '/tasks/to-do'},
+        {label: 'All Tasks', href: '/tasks/all'},
+        {label: 'Incomplete Tasks', href: '/tasks/incomplete'},
         {label: 'Completed Tasks', href: '/tasks/completed'},
     ]
   return (

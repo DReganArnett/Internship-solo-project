@@ -1,16 +1,12 @@
+'use client'
 
-
-import React from 'react';
-import '../globals.css';
-import { Heading } from '@radix-ui/themes';
-import { redirect } from 'next/navigation';
-import TaskCard from '../components/TaskCard';
+import React, { useEffect } from 'react';
 import prisma from '@/prisma/client';
+import { useRouter, redirect } from 'next/navigation';
+import LoadingSpinner from '../components/Spinner';
 
 type Props = {
   id: string
-  taskName: string
-  dueOn: string
   completed: boolean
 }
 
@@ -19,59 +15,33 @@ function getTasks() {
 }
 
 async function deleteAllTasks(data: FormData) {
-  "use server"
   const id = data.get("id")?.valueOf();
   await prisma.task.deleteMany()
-  redirect('/tasks');
+  redirect('/');
 }
 
 async function toggleTask(id: string, completed: boolean) {
-  "use server"
   await prisma.task.update({ where: { id }, data: { completed }});
-  redirect('/tasks');
+  redirect('/');
 }
 
-// async function deleteSingleTask(id: string) {
-//   "use server"
-//   await prisma.task.delete({where: { id } });
-//   redirect('/');
-// }
+async function deleteTask(id: string) {
+  await prisma.task.delete({ where: { id }});
+  redirect('/')
+}
 
-const AllTasksPage = async ({id, taskName, dueOn, completed}: Props) => {
-  const tasks = await getTasks();
 
-  if (!tasks) {
-    return <p>No tasks yet.</p>
-  }
-
-  console.log('id: ', id, 'taskName: ', taskName, 'completed: ', completed)
-
+export default function TasksHome() {
+  const router = useRouter()
+  
+  useEffect(() => {
+    router.push('tasks/all');
+    router.refresh();
+  }, [router]);
 
   return (
-    <div className='image-container'>
     <div>
-      <div className="ml-16 pt-12">
-        <div className='ml-8 text-white' >
-          <Heading size="8" as="h1">All Tasks:</Heading>
-        </div>
-      </div> 
-      <div className="mt-5 ml-16">
-        <form action={deleteAllTasks}>
-          <button className="p-1 mr-5 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/new'>Add a Task</a></button>
-          <button className="p-1 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline">Reset Tasks</button>
-        </form>
-      </div>
+      <LoadingSpinner />
     </div>
-    <div className="pl-4 ml-12 flex">
-      <ul>
-        {tasks.map(task => (
-          <TaskCard key={task.id} {...task} toggleTask={toggleTask}  />
-        ))}
-      </ul>
-    </div>
-  </div>
-
-  )
+  );
 }
-
-export default AllTasksPage

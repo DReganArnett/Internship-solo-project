@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react'
 import { Callout, Heading } from '@radix-ui/themes';
-import { taskSchema } from '@/app/validationSchemas';
+import { createTaskSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 
-type TaskForm = z.infer<typeof taskSchema>;
+type TaskForm = z.infer<typeof createTaskSchema>;
 
 
 const NewTaskPage = () => {
@@ -57,7 +57,7 @@ const NewTaskPage = () => {
                     <input 
                         type="text" 
                         required 
-                        placeholder="Due On: "
+                        placeholder="Due On (YYYY-DD-MM): "
                         className='w-96 p-1 border-solid opacity-75 border-yellow-800 border-2 text-yellow-950 k max-w-lg rounded-lg placeholder:text-yellow-950' 
                         onChange={(e) => setDueOn(e.target.value)}
                     />
