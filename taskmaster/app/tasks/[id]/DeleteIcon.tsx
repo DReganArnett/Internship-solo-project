@@ -30,6 +30,7 @@ const DeleteIcon = ({id}: Props) => {
 
     return (
         <div>
+            <div className="mt-5 mb-7 text-yellow-900 border-yellow-900">
             <AlertDialog.Root>
                 <AlertDialog.Trigger>
                     <button 
@@ -40,6 +41,7 @@ const DeleteIcon = ({id}: Props) => {
                     </button>
                 </AlertDialog.Trigger>
                 <AlertDialog.Content>
+                <div className="mt-5 mb-7 text-yellow-900 border-yellow-900">
                     <AlertDialog.Title>Confirm</AlertDialog.Title>
                     <AlertDialog.Description>
                         Are you sure you want to delete this task?
@@ -59,8 +61,10 @@ const DeleteIcon = ({id}: Props) => {
                             Delete
                         </button>
                     </AlertDialog.Action>
+                    </div>
                 </AlertDialog.Content>
             </AlertDialog.Root>
+            <div className="mt-5 mb-7 text-yellow-900 border-yellow-900">
             <AlertDialog.Root>
                 <AlertDialog.Content>
                     <AlertDialog.Title>Error</AlertDialog.Title>
@@ -75,6 +79,8 @@ const DeleteIcon = ({id}: Props) => {
                     </button>
                 </AlertDialog.Content>
             </AlertDialog.Root>
+            </div>
+            </div>
         </div>
     );
 };

@@ -7,35 +7,13 @@ import { useRouter } from 'next/navigation';
 import { redirect } from 'next/navigation';
 // import { UserButton } from "@clerk/nextjs";
 import prisma from '@/prisma/client';
-
-
-// type Props = {
-//   id: string
-// }
-
-// function getTasks() {
-//   return prisma.task.findMany();
-// }
-
-// async function deleteAllTasks(data: FormData) {
-//   "use server"
-//   const id = data.get("id")?.valueOf();
-//   await prisma.task.deleteMany()
-//   redirect('/');
-// }
-
-// async function toggleTask(id: number, completed: boolean) {
-//   "use server"
-//   await prisma.task.update({ where: { id }, data: { completed }});
-//   redirect('/');
-// }
-
+import LoadingSpinner from './components/Spinner';
 
 const Home = async () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/tasks');
+    router.push('/');
     router.refresh();
   }, [router]);
 
@@ -43,14 +21,16 @@ const Home = async () => {
   return (
     <div>
       <div className='image-container'>
-          <div className="pr-6 pt-2 text-right">
-            <div className=' text-white' >
+          <div className="pr-5 pt-2 text-right">
+            <div className='pr-2 text-white' >
               <Heading size="9" as="h1">Taskmaster...</Heading>
             </div>
             <div className="text-white inline">
               <Heading size="5" as="h1">Manage your tasks like a boss!</Heading>
             </div>
-          
+            <div>
+            <button className="p-1 mt-5 -mr-3 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/all'>Start Managing Tasks</a></button>
+            </div>
           </div> 
       </div>
     </div>
@@ -58,6 +38,3 @@ const Home = async () => {
 }
 
 export default Home
-
-// action={CreateTask} 
-// action={DeleteTask}

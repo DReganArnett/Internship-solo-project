@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
+import '../../globals.css'
 import { NextResponse } from 'next/server';
 import { TextField, Button, Text, Flex, Box, Checkbox, Callout, IconButton } from '@radix-ui/themes';
 import axios from 'axios';
@@ -29,9 +30,11 @@ const UpdateTaskPage = async ({ id, taskName, dueOn, completed, toggleTask }: Pr
   }
 
   return (
-    <div>  
-      <UpdateTaskForm id={id} taskName={taskName} dueOn={dueOn} completed={completed} toggleTask={toggleTask} />
-    </div>
+    <div className='image-container'>
+      <div className="pr-6 pt-2 text-right">
+        <UpdateTaskForm key={id} id={id} taskName={taskName} dueOn={dueOn} completed={completed} />
+      </div> 
+</div>
   )
 }
 

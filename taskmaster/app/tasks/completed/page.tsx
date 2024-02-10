@@ -33,17 +33,17 @@ const CompletedPage = async ({completed}: Props) => {
   return (
     <div className='image-container'>
         <div className="ml-16 pt-10">
-            <div className='ml-2 text-white'>
+            <div className='-mb-2 ml-0 text-white'>
                 <Heading size="8" as="h1">Completed Tasks:</Heading>
             </div>
             <br />
-            <div className='ml-10'>
+            <div className='ml-8'>
                 <form action={deleteAllTasks}>
                   <button className="p-1 mr-5 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/new'>Add a Task</a></button>
                   <button className="p-1 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline">Reset Tasks</button>
                 </form>
             </div> 
-            <div className="ml-16 flex">   
+            <div className="ml-2 flex">   
                 <ul>
                     {todos.map(todo => (
                         <TaskCard key={todo.id} {...todo} toggleTask={toggleTask} />

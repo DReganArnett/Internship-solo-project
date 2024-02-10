@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { Heading } from '@radix-ui/themes';
 import { redirect } from 'next/navigation';
@@ -25,7 +23,7 @@ async function deleteAllTasks(data: FormData) {
 }
 
 async function toggleTask(id: string, completed: boolean) {
-  "use server"
+  'use server'
   await prisma.task.update({ where: { id }, data: { completed }});
   redirect('/tasks');
 }
@@ -49,12 +47,12 @@ const AllTasksPage = async ({id, taskName, dueOn, completed}: Props) => {
   return (
     <div className='image-container'>
     <div>
-      <div className="ml-16 pt-12">
-        <div className='ml-8 text-white' >
+      <div className="ml-16 pt-10">
+        <div className='ml-12 text-white' >
           <Heading size="8" as="h1">All Tasks:</Heading>
         </div>
       </div> 
-      <div className="mt-5 ml-16">
+      <div className="mt-5 ml-20">
         <form action={deleteAllTasks}>
           <button className="p-1 mr-5 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/new'>Add a Task</a></button>
           <button className="p-1 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline">Reset Tasks</button>
@@ -64,7 +62,7 @@ const AllTasksPage = async ({id, taskName, dueOn, completed}: Props) => {
     <div className="pl-4 ml-12 flex">
       <ul>
         {tasks.map(task => (
-          <TaskCard key={task.id} {...task} id={task.id} taskName={task.taskName} dueOn={task.dueOn} completed={task.completed} toggleTask={toggleTask} deleteTask={deleteTask} />
+          <TaskCard key={task.id} {...task} id={task.id} taskName={task.taskName} dueOn={task.dueOn} completed={task.completed} deleteTask={deleteTask} toggleTask={toggleTask} />
         ))}
       </ul>
     </div>
