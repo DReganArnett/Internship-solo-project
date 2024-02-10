@@ -1,42 +1,27 @@
-"use client"
 
-import React, { useState } from 'react'
-import '../../globals.css'
-import { NextResponse } from 'next/server';
-import { TextField, Button, Text, Flex, Box, Checkbox, Callout, IconButton } from '@radix-ui/themes';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { updateTaskSchema } from '@/app/validationSchemas';
-import  { number, string, z } from 'zod';
-import UpdateTaskForm from '../../_components/UpdateTaskForm';
-import { PiNumberThree } from 'react-icons/pi';
 
-type TaskForm = z.infer<typeof updateTaskSchema>;
+import React from 'react'
+import prisma from '@/prisma/client';
+import { notFound } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const UpdateTaskForm = dynamic(() => import("../../_components/UpdateTaskForm"), { ssr: false });
 
 interface Props {
-  id: string
-  taskName: string
-  dueOn: string
-  completed: boolean
-  toggleTask: (id:number, completed: boolean) => void
+  params: { id: string }; 
 }
 
-const UpdateTaskPage = async ({ id, taskName, dueOn, completed, toggleTask }: Props) => {
-  const task = await prisma?.task.findUnique({ where: {id: parseInt(id)}})
+const EditTaskPage = async ({ params }: Props) => {
+  const task = await prisma.task?.findUnique({ where: {id: parseInt(params.id)}});
 
   if (!task) {
-    <p>No tasks yet.</p>
+   notFound();
   }
 
   return (
-    <div className='image-container'>
-      <div className="pr-6 pt-2 text-right">
-        <UpdateTaskForm key={id} id={id} taskName={taskName} dueOn={dueOn} completed={completed} />
-      </div> 
-</div>
-  )
+    <UpdateTaskForm task={task} />
+  )    
 }
 
-export default UpdateTaskPage;
+export default EditTaskPage;
 

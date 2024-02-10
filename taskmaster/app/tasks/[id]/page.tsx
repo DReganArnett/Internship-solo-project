@@ -1,14 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import prisma from '@/prisma/client';
 import { useRouter } from 'next/navigation';
 import { Card, Flex, Box, Text} from '@radix-ui/themes';
-import Buttons from './Buttons';
-import { FaRegTrashCan } from 'react-icons/fa6'
-import DeleteIcon from './DeleteIcon';
-import EditIcon from './EditIcon';
-import CheckIcon from './CheckIcon';
+import Buttons from '../_components/Buttons';
+
 
 interface Props {
     id: string
@@ -41,7 +37,7 @@ const TaskCard = async ( { id, taskName, dueOn, completed, toggleTask }: Props) 
                             <Text as="div" size="3">
                                 Due on: {dueOn}
                             </Text>
-                             <div>
+                            <div>
                                 <label htmlFor="checkBox">Completed: </label>
                                 <input 
                                     type="checkbox"
@@ -52,7 +48,7 @@ const TaskCard = async ( { id, taskName, dueOn, completed, toggleTask }: Props) 
                                     onChange={e => toggleTask(id, e.target.checked)}
                                 />
                             </div>
-                            <Buttons id={id} />
+                            <Buttons id={id} taskName={''} dueOn={''} completed={false} />
                         </Box>
                     </Flex>
                 </Card>

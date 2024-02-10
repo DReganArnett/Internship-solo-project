@@ -4,10 +4,6 @@ import React, { useEffect } from 'react';
 import { Heading } from '@radix-ui/themes'
 import './globals.css';
 import { useRouter } from 'next/navigation';
-import { redirect } from 'next/navigation';
-// import { UserButton } from "@clerk/nextjs";
-import prisma from '@/prisma/client';
-import LoadingSpinner from './components/Spinner';
 
 const Home = async () => {
   const router = useRouter();
@@ -16,7 +12,6 @@ const Home = async () => {
     router.push('/');
     router.refresh();
   }, [router]);
-
 
   return (
     <div>
