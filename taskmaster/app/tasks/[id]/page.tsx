@@ -17,7 +17,8 @@ interface Props {
 
 const TaskCard = async ( { id, taskName, dueOn, completed, toggleTask }: Props) => {
     console.log('id: ', id, 'taskName: ', taskName, 'dueOn: ', dueOn, 'completed: ', completed)
-    
+    const router = useRouter();
+ 
     return (
         <div>
             <div className="w-64 mt-5 text-yellow-900 border-yellow-900">
@@ -25,7 +26,7 @@ const TaskCard = async ( { id, taskName, dueOn, completed, toggleTask }: Props) 
                     <Flex align="center">
                         <Box>
                             {completed===true ? (
-                                  <Text as="div" size="6" className='line-through inline'>
+                                <Text as="div" size="6" className='line-through inline'>
                                    {taskName} 
                                 </Text>
                             ) : (
@@ -57,3 +58,4 @@ const TaskCard = async ( { id, taskName, dueOn, completed, toggleTask }: Props) 
 }
 
 export default TaskCard;
+
