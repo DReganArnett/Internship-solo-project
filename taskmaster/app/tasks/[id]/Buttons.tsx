@@ -90,5 +90,3 @@ const Buttons = ({id}: Props) => {
 }
 
 export default Buttons;
-
- 

@@ -17,7 +17,6 @@ interface Props {
 
 const TaskCard = async ( { id, taskName, dueOn, completed, toggleTask }: Props) => {
     console.log('id: ', id, 'taskName: ', taskName, 'dueOn: ', dueOn, 'completed: ', completed)
-    const router = useRouter();
     
     return (
         <div>
@@ -58,4 +57,3 @@ const TaskCard = async ( { id, taskName, dueOn, completed, toggleTask }: Props) 
 }
 
 export default TaskCard;
-

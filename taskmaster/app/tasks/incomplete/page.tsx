@@ -8,13 +8,6 @@ async function getIncompleteTasks (completed: boolean){
     "use server"
     return await prisma.task.findMany({where: { completed: false,}});
 }
-
-async function deleteAllTasks(data: FormData) {
-    "use server"
-    const id = data.get("id")?.valueOf();
-    await prisma.task.deleteMany()
-    redirect('/');
-  }
   
   async function toggleTask(id: string, completed: boolean) {
     "use server"
@@ -41,11 +34,8 @@ const IncompletePage = async ({completed}: Props) => {
             <Heading size="8" as="h1">To-do List:</Heading>
           </div>
         </div>
-        <div className="mt-5 -ml-0">
-          <form action={deleteAllTasks}>
-            <button className="p-1 ml-16 mr-5 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/new'>Add a Task</a></button>
-            <button className="p-1 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline">Reset Tasks</button>
-          </form>
+        <div className="p-2 mt-5 ml-12">
+          <button className="p-1 ml-16 mr-5 bg-white opacity-75 border-2 border-yellow-900 hover:bg-yellow-700 rounded-xl text-yellow-950 inline"><a href='/tasks/new'>Add a Task</a></button>
         </div> 
       </div>
       <div className="ml-12 flex">  

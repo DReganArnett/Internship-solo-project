@@ -5,6 +5,8 @@ import { Callout, Heading } from '@radix-ui/themes';
 import { createTaskSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
+import Spinner from '@/app/components/Spinner';
+import axios from 'axios';
 
 type TaskForm = z.infer<typeof createTaskSchema>;
 
@@ -14,12 +16,14 @@ const NewTaskPage = () => {
     const [taskName, setTaskName] = useState('');
     const [dueOn, setDueOn] = useState('');
     const [completed, setCompleted] = useState(false);
+    const [isSubmitting, setSubmitting] = useState(false);
 
     let error;
 
     const submitTask = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try {
+            setSubmitting(true);
             await fetch("http://localhost:3000/api/tasks", {
                 method: "POST", 
                 body: JSON.stringify({taskName, dueOn, completed}),
@@ -27,6 +31,7 @@ const NewTaskPage = () => {
             });
             router.push("/tasks");
         } catch (error) {
+            setSubmitting(false);
             throw new Error('Unable to post task.');
         }
     };
@@ -66,7 +71,7 @@ const NewTaskPage = () => {
                         className="p-1 border-2 border-yellow-900 bg-white opacity-75  hover:bg-yellow-700 rounded-xl text-yellow-950"
                         onClick={submitTask}
                     >
-                        Submit New Task
+                        Submit New Task {isSubmitting && <Spinner />}
                     </button>
                 </form>
             </div>
